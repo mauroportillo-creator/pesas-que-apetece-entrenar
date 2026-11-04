@@ -1,0 +1,151 @@
+id_usuario,fecha_registro,edad,genero,peso_pesa_kg,nivel,objetivo,fecha_primera_rutina,primera_rutina_en_7_dias,rutinas_completadas,fecha_ultima_actividad,activa_ultimos_30_dias,racha_semanas,plan,fecha_suscripcion,unido_a_reto
+U0001,2026-06-25,24,Mujer,6,Principiante,Perder peso,2026-07-06,false,1,2026-07-06,false,0,Gratuito,,false
+U0002,2026-03-15,24,Hombre,8,Intermedio,Tonificar,,false,0,,false,0,Gratuito,,false
+U0003,2026-05-11,26,Hombre,8,Intermedio,Tonificar,,false,0,,false,0,Gratuito,,false
+U0004,2026-08-18,32,Hombre,2,Principiante,Tonificar,,false,0,,false,0,Gratuito,,false
+U0005,2025-12-11,31,Hombre,2,Principiante,Perder peso,2025-12-14,true,127,2026-10-30,true,13,Mensual,2026-04-08,true
+U0006,2025-11-25,31,Mujer,8,Intermedio,Perder peso,2025-12-01,true,1,2025-12-01,false,0,Mensual,2025-11-29,true
+U0007,2026-09-20,38,Hombre,4,Principiante,Tonificar,2026-10-05,false,2,2026-10-05,true,1,Gratuito,,false
+U0008,2026-07-19,39,Mujer,6,Intermedio,Tonificar,2026-07-25,true,1,2026-07-25,false,0,Gratuito,,false
+U0009,2026-05-29,45,Hombre,6,Intermedio,Perder peso,2026-05-29,true,2,2026-05-29,false,0,Gratuito,,true
+U0010,2026-01-17,20,Hombre,2,Principiante,Constancia,,false,0,,false,0,Gratuito,,false
+U0011,2026-02-23,35,Mujer,12,Intermedio,Tonificar,2026-03-06,false,2,2026-03-06,false,0,Gratuito,,false
+U0012,2026-01-08,20,Mujer,20,Avanzado,Salud general,,false,0,,false,0,Gratuito,,false
+U0013,2026-02-13,39,Mujer,8,Intermedio,Salud general,2026-02-20,true,78,2026-10-30,true,11,Gratuito,,false
+U0014,2025-12-16,18,No binario,8,Intermedio,Perder peso,2025-12-23,true,150,2026-10-30,true,18,Mensual,2026-06-06,false
+U0015,2026-09-30,39,Mujer,6,Principiante,Tonificar,2026-10-01,true,2,2026-10-01,true,1,Gratuito,,false
+U0016,2025-11-29,42,Hombre,20,Avanzado,Ganar fuerza,2025-12-09,false,2,2025-12-09,false,0,Gratuito,,false
+U0017,2026-04-27,36,Mujer,6,Principiante,Tonificar,2026-05-13,false,1,2026-05-13,false,0,Gratuito,,true
+U0018,2025-11-20,23,Mujer,8,Principiante,Ganar fuerza,2025-11-26,true,128,2026-10-30,true,20,Anual,2026-03-07,true
+U0019,2026-09-29,35,No binario,4,Principiante,Salud general,2026-10-19,false,5,2026-10-30,true,1,Gratuito,,false
+U0020,2025-11-07,41,Hombre,10,Avanzado,Constancia,2025-11-09,true,135,2026-10-30,true,1,Mensual,2026-03-17,true
+U0021,2026-01-17,39,Mujer,4,Intermedio,Tonificar,2026-01-24,true,2,2026-01-24,false,0,Mensual,2026-01-19,true
+U0022,2026-01-04,37,Mujer,6,Intermedio,Perder peso,2026-01-16,false,2,2026-01-16,false,0,Gratuito,,false
+U0023,2026-01-09,39,Hombre,6,Principiante,Constancia,2026-01-11,true,99,2026-10-30,true,17,Mensual,2026-07-01,false
+U0024,2026-04-09,46,Mujer,4,Principiante,Tonificar,2026-04-09,true,98,2026-10-30,true,10,Mensual,2026-09-02,true
+U0025,2025-12-04,33,Hombre,12,Avanzado,Tonificar,2025-12-20,false,2,2025-12-20,false,0,Gratuito,,false
+U0026,2026-02-23,28,Hombre,12,Avanzado,Tonificar,2026-02-25,true,1,2026-02-25,false,0,Anual,2026-02-23,false
+U0027,2026-09-21,42,Hombre,6,Principiante,Ganar fuerza,2026-09-21,true,16,2026-10-30,true,1,Gratuito,,false
+U0028,2026-05-05,45,Hombre,4,Principiante,Salud general,2026-05-26,false,49,2026-10-30,true,14,Anual,2026-10-19,false
+U0029,2026-01-06,48,Hombre,8,Principiante,Tonificar,2026-01-19,false,2,2026-01-19,false,0,Gratuito,,false
+U0030,2025-11-22,42,Mujer,8,Principiante,Tonificar,2025-11-29,true,1,2025-11-29,false,0,Gratuito,,false
+U0031,2026-02-21,28,Mujer,4,Principiante,Ganar fuerza,2026-03-10,false,1,2026-03-10,false,0,Gratuito,,false
+U0032,2026-06-08,25,Hombre,20,Avanzado,Constancia,2026-06-11,true,62,2026-10-30,true,18,Anual,2026-08-12,false
+U0033,2026-08-05,41,Mujer,8,Intermedio,Ganar fuerza,2026-08-10,true,2,2026-08-10,false,0,Gratuito,,true
+U0034,2025-12-11,29,Mujer,6,Principiante,Tonificar,2025-12-23,false,98,2026-10-30,true,20,Mensual,2026-03-12,true
+U0035,2026-05-15,30,Mujer,8,Intermedio,Ganar fuerza,2026-05-21,true,1,2026-05-21,false,0,Gratuito,,false
+U0036,2026-06-30,32,Hombre,4,Principiante,Ganar fuerza,2026-07-05,true,2,2026-07-05,false,0,Gratuito,,false
+U0037,2026-02-24,29,Mujer,2,Principiante,Tonificar,2026-03-01,true,2,2026-03-01,false,0,Gratuito,,true
+U0038,2026-04-06,26,Mujer,10,Intermedio,Salud general,2026-04-10,true,94,2026-10-30,true,18,Mensual,2026-10-28,true
+U0039,2025-12-14,20,Mujer,6,Principiante,Perder peso,2025-12-18,true,126,2026-10-30,true,18,Mensual,2026-05-19,true
+U0040,2025-11-13,39,Mujer,20,Avanzado,Ganar fuerza,2025-11-17,true,123,2026-10-30,true,4,Mensual,2026-02-03,false
+U0041,2026-06-02,38,Mujer,10,Avanzado,Ganar fuerza,2026-06-03,true,1,2026-06-03,false,0,Gratuito,,false
+U0042,2026-01-13,24,Mujer,10,Intermedio,Tonificar,2026-01-18,true,87,2026-10-30,true,19,Mensual,2026-03-27,true
+U0043,2026-04-13,47,Mujer,8,Intermedio,Salud general,,false,0,,false,0,Mensual,2026-04-13,false
+U0044,2026-07-03,40,Mujer,6,Principiante,Tonificar,2026-07-04,true,42,2026-10-30,true,13,Mensual,2026-09-30,false
+U0045,2026-01-01,31,Hombre,4,Intermedio,Perder peso,2026-01-19,false,1,2026-01-19,false,0,Gratuito,,false
+U0046,2026-05-10,43,Mujer,6,Intermedio,Perder peso,2026-05-10,true,62,2026-10-30,true,20,Gratuito,,true
+U0047,2026-05-07,22,Mujer,16,Avanzado,Constancia,2026-05-24,false,51,2026-10-30,true,5,Mensual,2026-05-20,false
+U0048,2026-07-26,49,Hombre,6,Principiante,Tonificar,2026-07-29,true,1,2026-07-29,false,0,Gratuito,,true
+U0049,2026-07-07,24,Hombre,2,Principiante,Tonificar,2026-07-25,false,35,2026-10-30,true,8,Gratuito,,false
+U0050,2026-09-24,27,Mujer,4,Intermedio,Tonificar,2026-10-02,false,2,2026-10-02,true,1,Gratuito,,false
+U0051,2026-02-19,45,No binario,6,Intermedio,Tonificar,2026-03-08,false,72,2026-10-30,true,5,Gratuito,,true
+U0052,2026-08-04,26,Hombre,2,Principiante,Perder peso,2026-08-09,true,1,2026-08-09,false,0,Gratuito,,false
+U0053,2026-06-07,34,Mujer,6,Principiante,Ganar fuerza,2026-06-18,false,42,2026-10-30,true,3,Gratuito,,false
+U0054,2026-04-29,28,Mujer,12,Avanzado,Ganar fuerza,2026-05-06,true,2,2026-05-06,false,0,Gratuito,,false
+U0055,2026-06-02,28,Mujer,2,Principiante,Perder peso,,false,0,,false,0,Gratuito,,false
+U0056,2026-03-17,34,Mujer,2,Principiante,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0057,2026-08-25,44,Mujer,4,Principiante,Tonificar,2026-08-30,true,1,2026-08-30,false,0,Mensual,2026-08-29,false
+U0058,2026-07-27,41,Mujer,16,Avanzado,Salud general,2026-07-28,true,33,2026-10-30,true,6,Gratuito,,false
+U0059,2025-12-10,34,Mujer,10,Intermedio,Tonificar,2025-12-16,true,101,2026-10-30,true,8,Gratuito,,true
+U0060,2026-08-04,38,Mujer,8,Intermedio,Salud general,,false,0,,false,0,Gratuito,,false
+U0061,2026-07-18,20,Hombre,8,Intermedio,Tonificar,2026-07-23,true,1,2026-07-23,false,0,Gratuito,,false
+U0062,2025-11-28,40,Mujer,4,Principiante,Tonificar,2025-12-09,false,2,2025-12-09,false,0,Gratuito,,false
+U0063,2025-12-05,36,Hombre,2,Principiante,Perder peso,2025-12-17,false,108,2026-10-30,true,19,Mensual,2026-06-17,true
+U0064,2026-09-12,31,Mujer,8,Avanzado,Salud general,2026-09-17,true,14,2026-10-30,true,4,Gratuito,,false
+U0065,2025-11-22,33,Hombre,4,Principiante,Ganar fuerza,2025-11-28,true,154,2026-10-30,true,10,Mensual,2026-01-13,false
+U0066,2026-09-22,36,Hombre,16,Avanzado,Perder peso,2026-09-23,true,1,2026-09-23,false,0,Gratuito,,true
+U0067,2025-12-25,50,Hombre,2,Principiante,Salud general,2025-12-28,true,105,2026-10-30,true,20,Mensual,2026-06-16,true
+U0068,2026-08-17,45,Hombre,8,Principiante,Ganar fuerza,2026-08-19,true,34,2026-10-30,true,10,Mensual,2026-08-17,true
+U0069,2026-06-19,41,No binario,6,Principiante,Tonificar,,false,0,,false,0,Gratuito,,false
+U0070,2026-01-14,38,Mujer,8,Intermedio,Tonificar,2026-01-17,true,88,2026-10-30,true,18,Mensual,2026-07-14,false
+U0071,2026-09-06,30,Hombre,12,Intermedio,Tonificar,2026-09-12,true,20,2026-10-30,true,1,Gratuito,,false
+U0072,2026-06-07,34,Mujer,10,Intermedio,Tonificar,2026-06-09,true,60,2026-10-30,true,5,Anual,2026-10-08,false
+U0073,2026-05-03,30,Hombre,10,Intermedio,Tonificar,2026-05-05,true,65,2026-10-30,true,11,Mensual,2026-10-29,false
+U0074,2026-08-26,44,Mujer,2,Principiante,Perder peso,2026-09-05,false,18,2026-10-30,true,6,Gratuito,,true
+U0075,2026-02-18,23,Mujer,8,Principiante,Tonificar,2026-02-25,true,1,2026-02-25,false,0,Gratuito,,false
+U0076,2026-02-21,47,Hombre,12,Intermedio,Ganar fuerza,2026-02-25,true,1,2026-02-25,false,0,Gratuito,,false
+U0077,2026-09-09,34,Prefiere no decirlo,4,Principiante,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0078,2025-12-30,38,Hombre,2,Principiante,Perder peso,,false,0,,false,0,Gratuito,,false
+U0079,2026-04-09,29,Mujer,10,Avanzado,Tonificar,2026-04-16,true,83,2026-10-30,true,4,Gratuito,,false
+U0080,2026-02-21,20,No binario,8,Intermedio,Tonificar,2026-03-01,false,1,2026-03-01,false,0,Gratuito,,false
+U0081,2026-03-09,28,Hombre,4,Principiante,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0082,2026-01-03,40,Mujer,6,Principiante,Tonificar,2026-01-04,true,94,2026-10-30,true,17,Mensual,2026-10-18,false
+U0083,2026-07-17,29,Hombre,4,Principiante,Salud general,2026-07-20,true,51,2026-10-30,true,7,Gratuito,,true
+U0084,2026-01-31,46,Prefiere no decirlo,4,Intermedio,Perder peso,2026-02-04,true,79,2026-10-30,true,5,Gratuito,,false
+U0085,2026-10-04,24,Hombre,10,Intermedio,Perder peso,2026-10-05,true,10,2026-10-30,true,1,Gratuito,,true
+U0086,2025-12-22,24,Mujer,12,Avanzado,Perder peso,2025-12-27,true,98,2026-10-30,true,18,Mensual,2026-01-21,true
+U0087,2026-10-06,33,Hombre,8,Avanzado,Tonificar,2026-10-09,true,2,2026-10-09,true,1,Gratuito,,true
+U0088,2026-02-28,31,Mujer,6,Principiante,Salud general,2026-02-28,true,2,2026-02-28,false,0,Gratuito,,false
+U0089,2026-08-25,21,Prefiere no decirlo,8,Intermedio,Perder peso,,false,0,,false,0,Gratuito,,false
+U0090,2026-02-08,46,Prefiere no decirlo,2,Principiante,Tonificar,2026-02-14,true,91,2026-10-30,true,1,Mensual,2026-04-18,false
+U0091,2025-12-27,44,No binario,16,Avanzado,Tonificar,2026-01-16,false,2,2026-01-16,false,0,Gratuito,,false
+U0092,2025-11-03,46,Mujer,20,Avanzado,Perder peso,,false,0,,false,0,Gratuito,,false
+U0093,2026-05-22,22,Mujer,8,Principiante,Ganar fuerza,2026-05-26,true,2,2026-05-26,false,0,Gratuito,,false
+U0094,2026-09-10,33,Hombre,4,Principiante,Constancia,2026-09-29,false,1,2026-09-29,false,0,Gratuito,,false
+U0095,2026-02-02,39,Prefiere no decirlo,8,Intermedio,Salud general,2026-02-03,true,90,2026-10-30,true,19,Anual,2026-03-26,true
+U0096,2026-04-07,28,Prefiere no decirlo,8,Principiante,Perder peso,2026-04-11,true,79,2026-10-30,true,5,Anual,2026-05-08,true
+U0097,2025-11-26,40,Mujer,20,Avanzado,Tonificar,2025-11-30,true,1,2025-11-30,false,0,Gratuito,,false
+U0098,2025-11-29,26,Mujer,6,Intermedio,Ganar fuerza,2025-12-19,false,2,2025-12-19,false,0,Anual,2025-12-01,false
+U0099,2026-10-10,32,Mujer,10,Avanzado,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0100,2026-03-01,28,Hombre,4,Principiante,Perder peso,2026-03-13,false,72,2026-10-30,true,9,Anual,2026-05-24,true
+U0101,2026-01-20,29,Mujer,8,Avanzado,Tonificar,2026-01-30,false,1,2026-01-30,false,0,Anual,2026-01-23,false
+U0102,2026-01-24,40,Mujer,2,Principiante,Salud general,2026-01-27,true,103,2026-10-30,true,11,Gratuito,,true
+U0103,2026-03-01,25,Mujer,4,Principiante,Ganar fuerza,2026-03-01,true,118,2026-10-30,true,11,Mensual,2026-06-08,false
+U0104,2025-11-10,31,Mujer,6,Principiante,Constancia,2025-11-10,true,2,2025-11-10,false,0,Gratuito,,false
+U0105,2026-07-25,36,Mujer,16,Avanzado,Tonificar,2026-08-09,false,1,2026-08-09,false,0,Gratuito,,false
+U0106,2026-03-06,42,Mujer,6,Principiante,Perder peso,2026-03-07,true,87,2026-10-30,true,7,Mensual,2026-04-02,true
+U0107,2025-11-09,29,Mujer,2,Principiante,Constancia,2025-11-15,true,2,2025-11-15,false,0,Gratuito,,false
+U0108,2025-11-30,37,Mujer,2,Principiante,Tonificar,,false,0,,false,0,Gratuito,,false
+U0109,2026-08-21,44,Hombre,2,Principiante,Ganar fuerza,2026-08-28,true,20,2026-10-30,true,2,Mensual,2026-09-20,false
+U0110,2026-08-07,32,Hombre,6,Intermedio,Salud general,2026-08-13,true,28,2026-10-30,true,1,Gratuito,,true
+U0111,2026-09-30,29,Hombre,8,Principiante,Perder peso,2026-10-15,false,1,2026-10-15,true,1,Gratuito,,true
+U0112,2026-05-07,20,Mujer,12,Intermedio,Constancia,2026-05-21,false,1,2026-05-21,false,0,Gratuito,,false
+U0113,2026-02-15,42,Hombre,2,Principiante,Perder peso,2026-03-06,false,80,2026-10-30,true,13,Mensual,2026-03-07,false
+U0114,2026-10-04,34,Hombre,10,Intermedio,Salud general,2026-10-14,false,1,2026-10-14,true,1,Gratuito,,true
+U0115,2026-02-09,31,Hombre,4,Principiante,Salud general,,false,0,,false,0,Gratuito,,false
+U0116,2026-01-26,27,Hombre,6,Intermedio,Tonificar,2026-02-01,true,112,2026-10-30,true,13,Anual,2026-09-08,true
+U0117,2026-05-17,43,Hombre,8,Intermedio,Salud general,2026-05-18,true,2,2026-05-18,false,0,Gratuito,,false
+U0118,2026-07-27,23,Mujer,4,Principiante,Tonificar,2026-07-31,true,32,2026-10-30,true,7,Gratuito,,true
+U0119,2026-08-10,46,Mujer,2,Principiante,Perder peso,2026-08-16,true,31,2026-10-30,true,4,Mensual,2026-10-25,false
+U0120,2025-11-04,32,Mujer,16,Avanzado,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0121,2026-01-14,23,Mujer,12,Intermedio,Ganar fuerza,2026-01-17,true,97,2026-10-30,true,13,Anual,2026-08-23,true
+U0122,2026-06-28,43,Mujer,8,Intermedio,Perder peso,2026-07-01,true,52,2026-10-30,true,1,Mensual,2026-10-04,false
+U0123,2026-04-17,28,Hombre,4,Principiante,Constancia,2026-04-21,true,2,2026-04-21,false,0,Gratuito,,true
+U0124,2026-06-28,33,Mujer,2,Principiante,Tonificar,2026-07-02,true,42,2026-10-30,true,7,Mensual,2026-08-04,true
+U0125,2026-04-11,49,Hombre,8,Principiante,Tonificar,2026-04-12,true,70,2026-10-30,true,14,Mensual,2026-05-01,true
+U0126,2026-07-15,37,Hombre,4,Principiante,Ganar fuerza,2026-08-04,false,1,2026-08-04,false,0,Gratuito,,false
+U0127,2026-02-05,30,Mujer,6,Intermedio,Tonificar,2026-02-10,true,90,2026-10-30,true,16,Gratuito,,true
+U0128,2026-09-01,28,Mujer,4,Intermedio,Salud general,2026-09-04,true,2,2026-09-04,false,0,Gratuito,,false
+U0129,2026-04-08,32,Hombre,10,Avanzado,Salud general,2026-04-12,true,1,2026-04-12,false,0,Gratuito,,false
+U0130,2026-09-17,38,Hombre,16,Avanzado,Ganar fuerza,2026-09-17,true,1,2026-09-17,false,0,Gratuito,,false
+U0131,2026-10-15,25,Hombre,4,Principiante,Perder peso,2026-10-21,true,1,2026-10-21,true,1,Mensual,2026-10-15,false
+U0132,2026-09-06,31,No binario,6,Principiante,Salud general,2026-09-06,true,1,2026-09-06,false,0,Gratuito,,false
+U0133,2026-08-27,46,Mujer,10,Avanzado,Perder peso,2026-08-28,true,2,2026-08-28,false,0,Gratuito,,false
+U0134,2026-04-26,45,Hombre,6,Intermedio,Salud general,2026-04-26,true,53,2026-10-30,true,4,Anual,2026-05-01,true
+U0135,2026-06-11,28,Mujer,2,Principiante,Tonificar,,false,0,,false,0,Gratuito,,false
+U0136,2026-07-13,33,Mujer,4,Principiante,Salud general,2026-07-15,true,51,2026-10-30,true,1,Gratuito,,false
+U0137,2025-11-25,50,Hombre,8,Intermedio,Constancia,2025-11-26,true,130,2026-10-30,true,5,Mensual,2026-05-22,false
+U0138,2026-09-19,41,Mujer,4,Principiante,Tonificar,,false,0,,false,0,Mensual,2026-09-19,false
+U0139,2025-12-22,33,Mujer,4,Principiante,Tonificar,2025-12-24,true,1,2025-12-24,false,0,Mensual,2025-12-24,false
+U0140,2025-12-03,43,Hombre,2,Principiante,Salud general,2025-12-07,true,122,2026-10-30,true,16,Gratuito,,false
+U0141,2026-07-28,42,Mujer,10,Intermedio,Constancia,2026-08-01,true,1,2026-08-01,false,0,Gratuito,,false
+U0142,2026-08-17,41,Hombre,4,Principiante,Salud general,2026-08-26,false,20,2026-10-30,true,3,Gratuito,,true
+U0143,2026-07-10,29,Hombre,6,Intermedio,Salud general,2026-07-16,true,2,2026-07-16,false,0,Gratuito,,false
+U0144,2026-05-09,36,Hombre,2,Principiante,Constancia,2026-05-14,true,2,2026-05-14,false,0,Gratuito,,false
+U0145,2026-03-24,35,Mujer,8,Intermedio,Perder peso,,false,0,,false,0,Gratuito,,false
+U0146,2026-02-16,37,Hombre,10,Intermedio,Salud general,2026-03-07,false,1,2026-03-07,false,0,Gratuito,,false
+U0147,2026-03-31,33,Mujer,6,Principiante,Perder peso,2026-04-06,true,2,2026-04-06,false,0,Gratuito,,true
+U0148,2025-11-24,50,Hombre,6,Principiante,Ganar fuerza,,false,0,,false,0,Gratuito,,false
+U0149,2026-04-09,26,Hombre,10,Intermedio,Tonificar,2026-04-21,false,61,2026-10-30,true,4,Gratuito,,false
+U0150,2026-09-05,32,Mujer,6,Intermedio,Perder peso,2026-09-24,false,11,2026-10-30,true,3,Gratuito,,false

@@ -1,0 +1,54 @@
+{
+  "usuario": {
+    "nombre": "Usuario Demo",
+    "email": "usuario@ejemplo.com",
+    "edad": 28,
+    "peso_kg": 70.0,
+    "altura_cm": 175,
+    "objetivo": "Ganar fuerza",
+    "foto": "assets/perfil.png"
+  },
+  "mis_rutinas": ["Full Body Principiante"],
+  "rutinas": [
+    {
+      "nombre": "Full Body Principiante",
+      "nivel": "Principiante",
+      "duracion_min": 45,
+      "dias_semana": 3,
+      "descripcion": "Trabajo de todo el cuerpo con ejercicios básicos para crear una buena base.",
+      "ejercicios": ["Sentadilla 3x12", "Press banca 3x10", "Remo con mancuerna 3x12", "Plancha 3x30s"]
+    },
+    {
+      "nombre": "Torso / Pierna",
+      "nivel": "Intermedio",
+      "duracion_min": 60,
+      "dias_semana": 4,
+      "descripcion": "Divide el entrenamiento en días de torso y días de pierna.",
+      "ejercicios": ["Press militar 4x8", "Dominadas 4x6", "Peso muerto 4x6", "Zancadas 3x10"]
+    },
+    {
+      "nombre": "HIIT Quema Grasa",
+      "nivel": "Todos",
+      "duracion_min": 25,
+      "dias_semana": 3,
+      "descripcion": "Intervalos de alta intensidad para mejorar el cardio.",
+      "ejercicios": ["Burpees 40s", "Mountain climbers 40s", "Saltos de comba 40s", "Descanso 20s entre ejercicios"]
+    },
+    {
+      "nombre": "Movilidad y Estiramientos",
+      "nivel": "Todos",
+      "duracion_min": 20,
+      "dias_semana": 5,
+      "descripcion": "Sesión suave para ganar flexibilidad y prevenir lesiones.",
+      "ejercicios": ["Gato-camello 10 rep", "Estiramiento isquios 30s", "Apertura de cadera 30s", "Rotaciones torácicas 10 rep"]
+    }
+  ],
+  "productos": [
+    {"nombre": "Proteína Whey 1 kg", "precio": 29.99, "categoria": "Suplementos", "icono": "🥛"},
+    {"nombre": "Esterilla de yoga", "precio": 19.95, "categoria": "Material", "icono": "🧘"},
+    {"nombre": "Mancuernas 2 x 5 kg", "precio": 34.50, "categoria": "Material", "icono": "🏋️"},
+    {"nombre": "Bandas elásticas (pack 5)", "precio": 14.99, "categoria": "Material", "icono": "🎗️"},
+    {"nombre": "Botella 750 ml", "precio": 9.90, "categoria": "Accesorios", "icono": "💧"},
+    {"nombre": "Creatina 300 g", "precio": 22.00, "categoria": "Suplementos", "icono": "⚡"}
+  ]
+}

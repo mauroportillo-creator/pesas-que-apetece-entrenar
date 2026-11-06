@@ -1,0 +1,5 @@
+id,nombre,nivel,duracion_min,descripcion,ejercicios
+R03,Rutina de 3 kg,Principiante,,,
+R05,Rutina de 5 kg,Principiante,,,
+R10,Rutina de 10 kg,Intermedio,,,
+R15,Rutina de 15 kg,Avanzado,,,

@@ -1,7 +1,7 @@
-"""PVBPQAE-46 · Perfil editable: «Mis datos» (Mauro)."""
+"""PVBPQAE-46 · Perfil editable: «Mis datos» y eliminar la cuenta (PVBPQAE-56) (Mauro)."""
 import streamlit as st
 
-from comun import cuentas, datos, estilos
+from comun import autenticacion, cuentas, datos, estilos
 from comun.navegacion import ir_a
 from paginas.cuestionario import OBJETIVOS, empezar_de_nuevo
 
@@ -40,7 +40,34 @@ def mostrar() -> None:
         st.button("🔄 Repetir el cuestionario de nivel", key="repetir_cuestionario",
                   type="primary", use_container_width=True, on_click=_repetir_cuestionario)
 
+    _eliminar_cuenta()
+
 
 def _repetir_cuestionario() -> None:
     empezar_de_nuevo()
     ir_a("cuestionario")
+
+
+# ---------------------------------------------------------------- eliminar la cuenta (RGPD)
+def _eliminar_cuenta() -> None:
+    st.write("")
+    with st.expander("🗑️ Eliminar mi cuenta"):
+        st.warning("Se borrarán tu cuenta, tus datos y tus rutinas guardadas. "
+                   "**No se puede deshacer.**")
+        seguro = st.checkbox("Entiendo que se borrarán todos mis datos y quiero eliminar mi cuenta",
+                             key="confirmar_eliminar")
+        st.button("Eliminar mi cuenta definitivamente", key="eliminar_cuenta",
+                  disabled=not seguro, use_container_width=True, on_click=_confirmar_eliminar)
+        if error := st.session_state.pop("error_eliminar", None):
+            st.error(error)
+
+
+def _confirmar_eliminar() -> None:
+    error = autenticacion.eliminar_cuenta()
+    if error:
+        st.session_state.error_eliminar = error
+        return
+    st.session_state.pop("confirmar_eliminar", None)
+    st.session_state.seccion = "inicio"
+    st.toast("Tu cuenta y tus datos se han eliminado. ¡Gracias por entrenar con nosotros!", icon="👋")
+    ir_a("pesa")

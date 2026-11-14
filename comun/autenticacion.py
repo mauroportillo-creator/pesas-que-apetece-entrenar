@@ -118,3 +118,19 @@ def cambiar_contrasena(correo: str, codigo: str, nueva: str) -> str | None:
     except Exception as error:
         return _traducir(error)
     return None
+
+
+# ---------------------------------------------------------------- eliminar la cuenta (RGPD)
+def eliminar_cuenta() -> str | None:
+    """Borra la cuenta, el perfil y las rutinas guardadas (PVBPQAE-56).
+
+    Llama a la función eliminar_mi_cuenta de Supabase (6_eliminar_cuenta.sql),
+    que solo puede borrar la cuenta de quien ha iniciado sesión. Devuelve un error o None.
+    """
+    try:
+        sb().rpc("eliminar_mi_cuenta").execute()
+    except Exception:
+        return "No se ha podido eliminar la cuenta. Inténtalo de nuevo más tarde."
+    st.session_state.pop("usuario", None)
+    st.session_state.pop("sb", None)  # la sesión de Supabase ya no sirve
+    return None

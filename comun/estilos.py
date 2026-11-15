@@ -4,6 +4,11 @@ import streamlit as st
 CSS = """
 <style>
   #MainMenu, header [data-testid="stToolbar"], footer {visibility: hidden;}
+  /* En el móvil el panel lateral sale cerrado: dejamos visible su botón para abrirlo ("Menú") */
+  [data-testid="stExpandSidebarButton"] {visibility: visible; color:#C2410C; background:#FFF4EC;
+      border-radius:999px; padding:0 .6rem; width:auto;}
+  [data-testid="stExpandSidebarButton"]::after {content:"Menú"; font-weight:600; font-size:.9rem;
+      margin-left:.2rem;}
   .block-container {padding-top: 1.2rem; padding-bottom: 3rem;}
 
   /* Panel lateral */
@@ -88,7 +93,8 @@ def aplicar(con_panel: bool = False) -> None:
         extra = ".block-container {max-width: 820px;}"
     else:
         extra = ('.block-container {max-width: 460px;} '
-                 '[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {display:none;}')
+                 '[data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], '
+                 '[data-testid="stExpandSidebarButton"] {display:none;}')
     st.markdown(f"<style>{extra}</style>", unsafe_allow_html=True)
 
 

@@ -7,7 +7,7 @@ import streamlit as st
 
 from comun import cuentas, datos, estilos
 from comun.navegacion import ir_a
-from paginas import carrito, mis_datos, mis_rutinas, rutina, tienda
+from paginas import carrito, entrenar, mis_datos, mis_rutinas, rutina, tienda
 
 BARRA = [("inicio", "🏠 Inicio"), ("rutinas", "💪 Rutinas"), ("tienda", "🛍️ Tienda")]
 
@@ -81,6 +81,7 @@ def inicio(pesa: dict, usuario: dict) -> None:
                          "Has escaneado tu pesa" if escaneada else "Tu pesa")
     st.subheader("Tu rutina de hoy")
     rutina.desplegable(recomendada, "inicio", abierta=True)
+    entrenar.aviso_ajuste(pesa)  # PVBPQAE-31: ajuste según la última valoración
     st.button("Ver todas las rutinas de esta pesa →", type="tertiary",
               on_click=ir_a_seccion, args=("rutinas",))
 
@@ -138,5 +139,7 @@ def mostrar(pesa: dict) -> None:
         mis_datos.mostrar()
     elif seccion == "mis_rutinas":
         mis_rutinas.mostrar()
+    elif seccion == "entrenar":
+        entrenar.mostrar(pesa)  # PVBPQAE-31
     else:
         inicio(pesa, usuario)

@@ -6,6 +6,7 @@ botón para guardarla en «Mis rutinas». Se usa en Inicio, Rutinas y Mis rutina
 import streamlit as st
 
 from comun import cuentas
+from paginas import entrenar
 
 
 def _duracion(rutina: dict) -> str:
@@ -42,6 +43,7 @@ def desplegable(rutina: dict, clave: str, abierta: bool = False) -> None:
     contenido, estrella = st.columns([12, 1], vertical_alignment="top", gap="small")
     with contenido, st.expander(f"**{rutina['nombre']}** · {_duracion(rutina)}", expanded=abierta):
         detalle(rutina)
+        entrenar.boton_empezar(rutina, clave)  # PVBPQAE-31
     estrella.button("★" if guardada else "☆", key=f"estrella_{clave}",
                     help="Quitar de Mis rutinas" if guardada else "Guardar en Mis rutinas",
                     on_click=_cambiar_guardada, args=(rutina["id"],))

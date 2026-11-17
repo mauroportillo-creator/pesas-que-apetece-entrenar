@@ -13,6 +13,7 @@ Cada pantalla está en su propio archivo dentro de  paginas/  (uno por historia)
   cuestionario.py    PVBPQAE-27  Cuestionario de nivel y objetivo       (María Luz)
   principal.py       PVBPQAE-58  Pantalla principal: panel y barra      (Marta)
   rutina.py          PVBPQAE-25  Cómo se muestra una rutina             (María Luz)
+  entrenar.py        PVBPQAE-31  Entrenar, resumen y valoración         (Javier)
   mis_datos.py       PVBPQAE-46  Mis datos (perfil editable)            (Mauro)
   mis_rutinas.py     por asignar Rutinas guardadas
   tienda.py          por asignar Tienda de pesas

@@ -7,7 +7,7 @@ import streamlit as st
 
 from comun import cuentas, datos, estilos
 from comun.navegacion import ir_a
-from paginas import carrito, entrenar, mis_datos, mis_rutinas, rutina, tienda
+from paginas import carrito, entrenar, mis_datos, mis_rutinas, premium, rutina, tienda
 
 BARRA = [("inicio", "🏠 Inicio"), ("rutinas", "💪 Rutinas"), ("tienda", "🛍️ Tienda")]
 
@@ -29,13 +29,15 @@ def panel_lateral(usuario: dict, seccion: str) -> None:
             f'{estilos.iniciales(usuario["nombre"], usuario.get("apellidos", ""))}</div>'
             f'<div><div class="nombre">{usuario["nombre"]} {usuario.get("apellidos", "")}</div>'
             f'<div class="correo">{usuario["correo"]}</div>'
-            f'<span class="chip">Nivel {(usuario.get("nivel") or "—").lower()}</span></div></div>',
+            f'<span class="chip">Nivel {(usuario.get("nivel") or "—").lower()}</span> '
+            f'<span class="chip">{premium.etiqueta_plan()}</span></div></div>',  # PVBPQAE-93
             unsafe_allow_html=True,
         )
         for clave, texto in [("mis_datos", "👤 Mis datos"), ("mis_rutinas", "⭐ Mis rutinas")]:
             st.button(texto, key=f"lat_{clave}", use_container_width=True,
                       type="primary" if seccion == clave else "secondary",
                       on_click=ir_a_seccion, args=(clave,))
+        premium.boton_menu(seccion, ir_a_seccion)  # PVBPQAE-93
         st.divider()
         st.button("Cerrar sesión", key="lat_salir", use_container_width=True, type="tertiary",
                   on_click=salir)
@@ -141,5 +143,9 @@ def mostrar(pesa: dict) -> None:
         mis_rutinas.mostrar()
     elif seccion == "entrenar":
         entrenar.mostrar(pesa)  # PVBPQAE-31
+    elif seccion == "suscripcion":
+        premium.mostrar_suscripcion()  # PVBPQAE-93
+    elif seccion == "zona_premium":
+        premium.mostrar_zona()  # PVBPQAE-93
     else:
         inicio(pesa, usuario)

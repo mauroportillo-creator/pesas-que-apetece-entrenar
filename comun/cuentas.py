@@ -49,6 +49,8 @@ def cargar_perfil() -> None:
         "peso_pesa_kg": perfil.get("peso_pesa_kg"),
         "nivel": perfil.get("nivel"),
         "objetivo": perfil.get("objetivo"),
+        "plan": perfil.get("plan") or "Gratuito",  # PVBPQAE-93
+        "fecha_suscripcion": perfil.get("fecha_suscripcion"),
         # «Mis rutinas» (la estrella): tabla rutinas_guardadas
         "rutinas_guardadas": _leer_rutinas_guardadas(),
     }
@@ -70,6 +72,43 @@ def actualizar_datos(nombre: str, apellidos: str, nivel: str, objetivo: str) -> 
                         "nivel": nivel, "objetivo": objetivo})
     st.session_state.usuario.update(nombre=nombre.strip(), apellidos=apellidos.strip(),
                                     nivel=nivel, objetivo=objetivo)
+
+
+# ---------------------------------------------------------------- plan Premium (PVBPQAE-93)
+# El plan está en la columna «plan» del perfil (Gratuito / Premium). La web no puede cambiarla
+# directamente: lo hace la función hacerme_premium() de Supabase (8_suscripcion_premium.sql).
+def es_premium() -> bool:
+    """¿La persona que ha iniciado sesión tiene el plan Premium? (lo usan también 8, 10, 12, 20 y 98)"""
+    usuario = usuario_actual()
+    return bool(usuario) and usuario.get("plan") == "Premium"
+
+
+def hacerme_premium() -> str | None:
+    """Cambia el plan a Premium y regala la tarjeta. Devuelve un error o None."""
+    try:
+        sb().rpc("hacerme_premium").execute()
+    except Exception:
+        return "No se ha podido activar el plan Premium. Inténtalo de nuevo más tarde."
+    fila = (sb().table(TABLA).select("plan, fecha_suscripcion")
+            .eq("auth_id", sb().auth.get_user().user.id).limit(1).execute().data)
+    if fila:
+        st.session_state.usuario.update(plan=fila[0]["plan"],
+                                        fecha_suscripcion=fila[0]["fecha_suscripcion"])
+    st.session_state.usuario.pop("tarjeta_regalo", None)
+    return None
+
+
+def tarjeta_regalo() -> dict | None:
+    """La tarjeta regalo de la persona (código, importe, si está usada) o None si no tiene."""
+    usuario = usuario_actual()
+    if "tarjeta_regalo" not in usuario:
+        try:
+            filas = (sb().table("tarjetas_regalo").select("codigo, importe, usada")
+                     .limit(1).execute().data)
+            usuario["tarjeta_regalo"] = filas[0] if filas else None
+        except Exception:
+            return None
+    return usuario["tarjeta_regalo"]
 
 
 # ---------------------------------------------------------------- mis rutinas (estrella)

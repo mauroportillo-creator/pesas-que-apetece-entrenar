@@ -58,8 +58,9 @@ def cabecera_con_carrito(seccion: str) -> None:
 
 
 def barra_superior(seccion: str) -> None:
-    columnas = st.columns(len(BARRA))
-    for col, (clave, texto) in zip(columnas, BARRA):
+    botones = BARRA + [premium.boton_alimentacion()]  # PVBPQAE-93: Alimentación (Premium)
+    columnas = st.columns(len(botones))
+    for col, (clave, texto) in zip(columnas, botones):
         col.button(texto, key=f"barra_{clave}", use_container_width=True,
                    type="primary" if seccion == clave else "secondary",
                    on_click=ir_a_seccion, args=(clave,))
@@ -143,9 +144,11 @@ def mostrar(pesa: dict) -> None:
         mis_rutinas.mostrar()
     elif seccion == "entrenar":
         entrenar.mostrar(pesa)  # PVBPQAE-31
-    elif seccion == "suscripcion":
+    elif seccion == "suscripcion" and not cuentas.es_premium():
         premium.mostrar_suscripcion()  # PVBPQAE-93
-    elif seccion == "zona_premium":
-        premium.mostrar_zona()  # PVBPQAE-93
+    elif seccion in ("suscripcion", "zona_premium"):
+        premium.mostrar_zona(ir_a_seccion)  # PVBPQAE-93
+    elif seccion == "alimentacion":
+        premium.mostrar_alimentacion()  # PVBPQAE-93 (el contenido es de la PVBPQAE-98)
     else:
         inicio(pesa, usuario)

@@ -16,6 +16,7 @@ Cada pantalla está en su propio archivo dentro de  paginas/  (uno por historia)
   entrenar.py        PVBPQAE-31  Entrenar, resumen y valoración         (Javier)
   premium.py         PVBPQAE-93  Suscripción y zona Premium             (Marta)
   tecnica.py         PVBPQAE-12  Botón «Cómo se hace» de cada ejercicio (Marta)
+  alimentacion.py    PVBPQAE-98  Consejos de alimentación según el objetivo
   mis_datos.py       PVBPQAE-46  Mis datos (perfil editable)            (Mauro)
   mis_rutinas.py     por asignar Rutinas guardadas
   tienda.py          por asignar Tienda de pesas

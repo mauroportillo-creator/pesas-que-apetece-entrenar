@@ -16,6 +16,7 @@ from datetime import date
 import streamlit as st
 
 from comun import cuentas, estilos
+from paginas import alimentacion
 
 PRECIO = "4,99 €/mes"
 VENTAJAS = [
@@ -148,5 +149,4 @@ def mostrar_alimentacion() -> None:
     if not cuentas.es_premium():
         mostrar_suscripcion("🔒 La alimentación es parte del plan Premium.")
         return
-    estilos.titulo("Alimentación 🥗", "Consejos de alimentación según tu objetivo.")
-    st.info("Muy pronto.")  # PVBPQAE-98: aquí va el contenido de alimentación
+    alimentacion.mostrar()  # PVBPQAE-98

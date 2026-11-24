@@ -38,6 +38,13 @@ CSS = """
   [data-testid="stHorizontalBlock"]:has([class*="st-key-estrella_"]) {flex-wrap:nowrap;}
   [data-testid="stHorizontalBlock"]:has([class*="st-key-estrella_"]) > div:last-child {min-width:2.4rem !important; flex:0 0 2.4rem !important;}
 
+  /* PVBPQAE-12: ejercicio + «Cómo se hace» en la misma fila, también en el móvil */
+  [class*="st-key-ejercicio_"] [data-testid="stHorizontalBlock"] {flex-wrap:nowrap; gap:.4rem;}
+  [class*="st-key-ejercicio_"] [data-testid="stHorizontalBlock"] > div {min-width:0 !important;}
+  [class*="st-key-ejercicio_"] [data-testid="stHorizontalBlock"] > div:last-child {flex:0 0 auto !important; width:auto !important;}
+  [class*="st-key-ejercicio_"] [data-testid="stMarkdownContainer"] ul {margin-bottom:0;}
+  [class*="st-key-ejercicio_"] [data-testid="stPopover"] button {min-height:2.1rem; padding:0 .55rem; font-size:.8rem;}
+
   /* Botón grande de «Repetir el cuestionario» en Mis datos */
   .st-key-repetir_cuestionario button {min-height:3.6rem; font-size:1.08rem;}
 

@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 import streamlit as st
 
 from comun import cuentas, datos, estilos
+from paginas import tecnica
 
 TABLA = "sesiones_entrenamiento"
 VALORACIONES = [("Fácil", "😌 Fácil"), ("Adecuada", "👍 Adecuada"), ("Dura", "😮‍💨 Dura")]
@@ -198,6 +199,7 @@ def _pantalla_entrenar(rutina: dict) -> None:
     for i, (nombre, series) in enumerate(ejercicios):
         st.pills(f"**{i + 1}. {nombre}**", [f"Serie {n}" for n in range(1, series + 1)],
                  selection_mode="multi", key=f"serie_{i}")
+        tecnica.boton(nombre, f"ent_{i}")  # PVBPQAE-12: «Cómo se hace»
 
     st.write("")
     faltan = total - sum(hechas)

@@ -6,14 +6,14 @@ botón para guardarla en «Mis rutinas». Se usa en Inicio, Rutinas y Mis rutina
 import streamlit as st
 
 from comun import cuentas
-from paginas import entrenar
+from paginas import entrenar, tecnica
 
 
 def _duracion(rutina: dict) -> str:
     return f"{rutina['duracion_min']} min" if rutina.get("duracion_min") else "duración por definir"
 
 
-def detalle(rutina: dict) -> None:
+def detalle(rutina: dict, clave: str = "") -> None:
     """Contenido de una rutina (duración, descripción y ejercicios de la tabla `rutinas`)."""
     st.caption(f"⏱️ {_duracion(rutina)} · Nivel {rutina['nivel'].lower()} · "
                f"Pesa de {rutina.get('peso_kg') or '?'} kg")
@@ -21,8 +21,8 @@ def detalle(rutina: dict) -> None:
         st.write(rutina["descripcion"])
     ejercicios = [e.strip() for e in (rutina.get("ejercicios") or "").split(";") if e.strip()]
     if ejercicios:
-        for ejercicio in ejercicios:
-            st.markdown(f"- {ejercicio}")
+        for i, ejercicio in enumerate(ejercicios):
+            tecnica.fila(ejercicio, f"{clave or rutina['id']}_{i}")  # PVBPQAE-12: «Cómo se hace»
     else:
         st.info("🛠️ Estamos preparando los ejercicios de esta rutina. ¡Muy pronto podrás entrenar con ella!")
 
@@ -42,7 +42,7 @@ def desplegable(rutina: dict, clave: str, abierta: bool = False) -> None:
     guardada = rutina["id"] in cuentas.usuario_actual().get("rutinas_guardadas", [])
     contenido, estrella = st.columns([12, 1], vertical_alignment="top", gap="small")
     with contenido, st.expander(f"**{rutina['nombre']}** · {_duracion(rutina)}", expanded=abierta):
-        detalle(rutina)
+        detalle(rutina, clave)
         entrenar.boton_empezar(rutina, clave)  # PVBPQAE-31
     estrella.button("★" if guardada else "☆", key=f"estrella_{clave}",
                     help="Quitar de Mis rutinas" if guardada else "Guardar en Mis rutinas",

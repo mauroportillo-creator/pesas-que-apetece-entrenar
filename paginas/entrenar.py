@@ -10,11 +10,18 @@
 Cada sesión se guarda en la tabla «sesiones_entrenamiento» (7_crear_tabla_sesiones.sql),
 donde cada persona solo ve las suyas (RLS). Si esa tabla todavía no existe en Supabase,
 el resumen y la valoración funcionan igual, pero solo mientras la sesión está abierta.
+
+PVBPQAE-28 · Temporizador de descanso (Javier): al marcar una serie arranca una cuenta atrás
+(según el objetivo de la rutina), con «+30 s» y «Saltar», y un pitido y vibración al terminar.
+Es para todos los usuarios (con o sin Premium) y no usa Supabase.
 """
+import json
 import re
+import time
 from datetime import datetime, timezone
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 from comun import cuentas, datos, estilos
 from paginas import tecnica
@@ -54,6 +61,26 @@ def calcular_resumen(ejercicios: list[tuple[str, int]], hechas: list[int],
         "duracion_min": max(1, round((fin - inicio).total_seconds() / 60)),
         "estado": "Completa" if series_hechas == series_total else "Parcial",
     }
+
+
+# ---------------------------------------------------------------- PVBPQAE-28 · descanso
+# Segundos de descanso entre series según el objetivo de la rutina (va en su nombre)
+DESCANSOS = {"Ganar fuerza": 90, "Tonificar": 60, "Salud general": 45,
+             "Constancia": 45, "Perder peso": 30}
+
+
+def segundos_de_descanso(rutina: dict) -> int:
+    """«Full Body 2 - Ganar fuerza» → 90. Si el nombre no dice el objetivo, 60."""
+    nombre = (rutina.get("nombre") or "").lower()
+    return next((s for objetivo, s in DESCANSOS.items() if objetivo.lower() in nombre), 60)
+
+
+def siguiente_serie(ejercicios: list[tuple[str, int]], hechas: list[int]) -> str | None:
+    """Qué toca después: «Sentadilla goblet, serie 3». None si ya están todas."""
+    for (nombre, series), h in zip(ejercicios, hechas):
+        if h < series:
+            return f"{tecnica.nombre_base(nombre)}, serie {h + 1}"
+    return None
 
 
 # ---------------------------------------------------------------- regla de ajuste
@@ -140,6 +167,34 @@ def empezar(rutina_id: str) -> None:
     st.session_state.seccion = "entrenar"
 
 
+def _serie_marcada(i: int, ejercicios: list[tuple[str, int]], segundos: int) -> None:
+    """PVBPQAE-28: al marcar una serie (no al desmarcarla) empieza el descanso."""
+    entreno = st.session_state.entreno
+    marcadas = entreno.setdefault("marcadas", {})
+    ahora = len(st.session_state.get(f"serie_{i}") or [])
+    antes = marcadas.get(i, 0)
+    marcadas[i] = ahora
+    if ahora <= antes:
+        return
+    hechas = [len(st.session_state.get(f"serie_{j}") or []) for j in range(len(ejercicios))]
+    siguiente = siguiente_serie(ejercicios, hechas)
+    if not siguiente:  # era la última serie: no hay que descansar
+        entreno.pop("descanso", None)
+        return
+    entreno["descanso"] = {"fin": time.time() + segundos, "total": segundos, "siguiente": siguiente}
+
+
+def _alargar_descanso() -> None:
+    descanso = st.session_state.entreno.get("descanso")
+    if descanso:
+        descanso["fin"] = max(descanso["fin"], time.time()) + 30
+        descanso["total"] = max(descanso["total"], round(descanso["fin"] - time.time()))
+
+
+def _saltar_descanso() -> None:
+    st.session_state.entreno.pop("descanso", None)
+
+
 def _salir() -> None:
     st.session_state.pop("entreno", None)
     st.session_state.seccion = "inicio"
@@ -148,6 +203,7 @@ def _salir() -> None:
 def _finalizar(ejercicios: list[tuple[str, int]]) -> None:
     entreno = st.session_state.entreno
     hechas = [len(st.session_state.get(f"serie_{i}") or []) for i in range(len(ejercicios))]
+    entreno.pop("descanso", None)  # PVBPQAE-28
     entreno["fin"] = datetime.now(timezone.utc)
     entreno["resumen"] = calcular_resumen(ejercicios, hechas, entreno["inicio"], entreno["fin"])
     entreno["fase"] = "resumen"
@@ -188,6 +244,73 @@ def aviso_ajuste(pesa: dict) -> None:
         st.info(texto)
 
 
+CUENTA_ATRAS = """
+<div id="caja" style="font-family:'Source Sans Pro',Arial,sans-serif;border:2px solid #EA580C;
+     border-radius:14px;padding:10px 12px;text-align:center;background:#FFF4EC;color:#1F2937">
+  <div style="font-size:14px;color:#6B7280">⏱️ Descansa · siguiente: <b id="sig"></b></div>
+  <div id="tiempo" style="font-size:42px;font-weight:700;color:#EA580C;line-height:1.2">0:00</div>
+  <div style="height:6px;background:#FED7AA;border-radius:3px">
+    <div id="barra" style="height:6px;background:#EA580C;border-radius:3px;width:100%"></div></div>
+</div>
+<script>
+const datos = __DATOS__;
+const fin = Date.now() + datos.restante * 1000;
+document.getElementById("sig").textContent = datos.siguiente;
+let avisado = datos.restante <= 0;
+function pitido() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.3, 0.6].forEach(t => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.3, ctx.currentTime + t);
+      o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.18);
+    });
+  } catch (e) {}
+  try { navigator.vibrate([200, 100, 200]); } catch (e) {}
+}
+function pintar() {
+  const quedan = Math.max(0, Math.ceil((fin - Date.now()) / 1000));
+  const t = document.getElementById("tiempo");
+  if (quedan > 0) {
+    t.textContent = Math.floor(quedan / 60) + ":" + String(quedan % 60).padStart(2, "0");
+  } else {
+    t.textContent = "¡A por la siguiente! 💪";
+    t.style.fontSize = "26px";
+    document.getElementById("caja").style.background = "#FFEDD5";
+    if (!avisado) { avisado = true; pitido(); }
+  }
+  document.getElementById("barra").style.width = (100 * quedan / datos.total) + "%";
+}
+pintar();
+setInterval(pintar, 250);
+</script>
+"""
+
+
+def temporizador() -> None:
+    """PVBPQAE-28: la cuenta atrás del descanso, con «+30 s» y «Saltar»."""
+    descanso = st.session_state.entreno.get("descanso")
+    if not descanso:
+        return
+    restante = descanso["fin"] - time.time()
+    if restante < -120:  # terminó hace rato: ya no se enseña
+        st.session_state.entreno.pop("descanso", None)
+        return
+    datos_js = {"restante": round(restante, 1), "total": descanso["total"],
+                "siguiente": descanso["siguiente"]}
+    components.html(CUENTA_ATRAS.replace("__DATOS__", json.dumps(datos_js)), height=128)
+    st.html("""<style>
+      .st-key-descanso [data-testid="stHorizontalBlock"] {flex-wrap:nowrap; gap:.5rem;}
+      .st-key-descanso [data-testid="stHorizontalBlock"] > div {min-width:0 !important;}
+    </style>""")
+    with st.container(key="descanso"):
+        mas, saltar = st.columns(2)
+        mas.button("➕ 30 s", key="descanso_mas", use_container_width=True, on_click=_alargar_descanso)
+        saltar.button("⏭️ Saltar", key="descanso_saltar", use_container_width=True,
+                      on_click=_saltar_descanso)
+
+
 def _pantalla_entrenar(rutina: dict) -> None:
     ejercicios = ejercicios_de(rutina)
     estilos.titulo(rutina["nombre"], "Marca cada serie cuando la termines.")
@@ -195,10 +318,13 @@ def _pantalla_entrenar(rutina: dict) -> None:
     hechas = [len(st.session_state.get(f"serie_{i}") or []) for i in range(len(ejercicios))]
     total = sum(s for _, s in ejercicios)
     st.progress(sum(hechas) / total if total else 0, text=f"{sum(hechas)} de {total} series")
+    temporizador()  # PVBPQAE-28
 
+    segundos = segundos_de_descanso(rutina)
     for i, (nombre, series) in enumerate(ejercicios):
         st.pills(f"**{i + 1}. {nombre}**", [f"Serie {n}" for n in range(1, series + 1)],
-                 selection_mode="multi", key=f"serie_{i}")
+                 selection_mode="multi", key=f"serie_{i}",
+                 on_change=_serie_marcada, args=(i, ejercicios, segundos))  # PVBPQAE-28
         tecnica.boton(nombre, f"ent_{i}")  # PVBPQAE-12: «Cómo se hace»
 
     st.write("")

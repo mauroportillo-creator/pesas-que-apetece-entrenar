@@ -7,7 +7,7 @@ import streamlit as st
 
 from comun import cuentas, datos, estilos
 from comun.navegacion import ir_a
-from paginas import carrito, entrenar, mis_datos, mis_rutinas, premium, rutina, tienda
+from paginas import carrito, entrenar, mi_progreso, mis_datos, mis_rutinas, premium, rutina, tienda
 
 BARRA = [("inicio", "🏠 Inicio"), ("rutinas", "💪 Rutinas"), ("tienda", "🛍️ Tienda")]
 
@@ -33,7 +33,8 @@ def panel_lateral(usuario: dict, seccion: str) -> None:
             f'<span class="chip">{premium.etiqueta_plan()}</span></div></div>',  # PVBPQAE-93
             unsafe_allow_html=True,
         )
-        for clave, texto in [("mis_datos", "👤 Mis datos"), ("mis_rutinas", "⭐ Mis rutinas")]:
+        for clave, texto in [("mis_datos", "👤 Mis datos"), ("mis_rutinas", "⭐ Mis rutinas"),
+                             ("mi_progreso", "📊 Mi progreso")]:  # PVBPQAE-97
             st.button(texto, key=f"lat_{clave}", use_container_width=True,
                       type="primary" if seccion == clave else "secondary",
                       on_click=ir_a_seccion, args=(clave,))
@@ -142,6 +143,8 @@ def mostrar(pesa: dict) -> None:
         mis_datos.mostrar()
     elif seccion == "mis_rutinas":
         mis_rutinas.mostrar()
+    elif seccion == "mi_progreso":
+        mi_progreso.mostrar(pesa)  # PVBPQAE-97
     elif seccion == "entrenar":
         entrenar.mostrar(pesa)  # PVBPQAE-31
     elif seccion == "suscripcion" and not cuentas.es_premium():

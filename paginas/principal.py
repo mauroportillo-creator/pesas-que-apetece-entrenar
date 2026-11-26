@@ -7,7 +7,7 @@ import streamlit as st
 
 from comun import cuentas, datos, estilos
 from comun.navegacion import ir_a
-from paginas import carrito, entrenar, mi_progreso, mis_datos, mis_rutinas, premium, rutina, tienda
+from paginas import admin, carrito, entrenar, mi_progreso, mis_datos, mis_rutinas, premium, rutina, tienda
 
 BARRA = [("inicio", "🏠 Inicio"), ("rutinas", "💪 Rutinas"), ("tienda", "🛍️ Tienda")]
 
@@ -39,6 +39,7 @@ def panel_lateral(usuario: dict, seccion: str) -> None:
                       type="primary" if seccion == clave else "secondary",
                       on_click=ir_a_seccion, args=(clave,))
         premium.boton_menu(seccion, ir_a_seccion)  # PVBPQAE-93
+        admin.boton_menu(seccion, ir_a_seccion)  # PVBPQAE-95: solo para el equipo
         st.divider()
         st.button("Cerrar sesión", key="lat_salir", use_container_width=True, type="tertiary",
                   on_click=salir)
@@ -153,5 +154,7 @@ def mostrar(pesa: dict) -> None:
         premium.mostrar_zona(ir_a_seccion)  # PVBPQAE-93
     elif seccion == "alimentacion":
         premium.mostrar_alimentacion()  # PVBPQAE-93 (el contenido es de la PVBPQAE-98)
+    elif seccion == "admin":
+        admin.mostrar()  # PVBPQAE-95
     else:
         inicio(pesa, usuario)

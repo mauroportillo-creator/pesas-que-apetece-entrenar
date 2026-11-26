@@ -83,6 +83,19 @@ def es_premium() -> bool:
     return bool(usuario) and usuario.get("plan") == "Premium"
 
 
+def es_admin() -> bool:
+    """¿La persona que ha iniciado sesión es del equipo? (tabla «administradores», PVBPQAE-95)"""
+    usuario = usuario_actual()
+    if not usuario:
+        return False
+    if "es_admin" not in usuario:
+        try:
+            usuario["es_admin"] = bool(sb().rpc("soy_admin").execute().data)
+        except Exception:
+            return False
+    return usuario["es_admin"]
+
+
 def hacerme_premium() -> str | None:
     """Cambia el plan a Premium y regala la tarjeta. Devuelve un error o None."""
     try:

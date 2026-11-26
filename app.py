@@ -20,6 +20,7 @@ Cada pantalla está en su propio archivo dentro de  paginas/  (uno por historia)
   mis_datos.py       PVBPQAE-46  Mis datos (perfil editable)            (Mauro)
   mis_rutinas.py     por asignar Rutinas guardadas
   mi_progreso.py     PVBPQAE-97  Mi progreso: kilos, entrenamientos y evolución (Isabel)
+  admin.py           PVBPQAE-95  Panel de administración (solo el equipo)  (Marta)
   tienda.py          por asignar Tienda de pesas
 """
 import streamlit as st

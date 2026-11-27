@@ -9,6 +9,9 @@
    - «🥗 Alimentación» (barra de arriba). Con el plan gratuito sale con candado 🔒 y lleva a
      «Hazte Premium». El contenido lo pone la PVBPQAE-98 en mostrar_alimentacion().
    - La técnica explicada va dentro de cada rutina (PVBPQAE-12).
+4. Cancelar la suscripción (PVBPQAE-20): al final de la Zona Premium, «Cancelar suscripción»
+   pide confirmación. «Sí, cancelar» desactiva la renovación y dice hasta qué día sigue siendo
+   Premium; «Volver» lo deja todo igual. Después de esa fecha pasa al plan gratuito.
    El resto de la web (rutinas, temporizador, mi progreso, tienda…) es igual para todos.
 """
 from datetime import date
@@ -38,6 +41,24 @@ def _aceptar() -> None:
 
 def _cancelar() -> None:
     st.session_state.seccion = "inicio"
+
+
+# PVBPQAE-20 · cancelar la suscripción
+def _pedir_cancelacion() -> None:
+    st.session_state.confirmar_cancelacion = True
+
+
+def _volver_de_cancelar() -> None:
+    st.session_state.pop("confirmar_cancelacion", None)
+
+
+def _confirmar_cancelacion() -> None:
+    error = cuentas.cancelar_premium()
+    if error:
+        st.session_state.error_cancelar = error
+        return
+    st.session_state.pop("confirmar_cancelacion", None)
+    st.session_state.recien_cancelado = True
 
 
 # ---------------------------------------------------------------- menú y barra
@@ -112,10 +133,39 @@ def mostrar_suscripcion(aviso: str | None = None) -> None:
     st.caption("No se cobra nada: el pago es simulado.")
 
 
+def _fecha_texto(valor) -> str:
+    return date.fromisoformat(str(valor)[:10]).strftime("%d/%m/%Y")
+
+
+def mostrar_confirmar_cancelacion() -> None:
+    """PVBPQAE-20 · pantalla de confirmación (escenarios 1 y 2)."""
+    fin = cuentas.fin_de_acceso().strftime("%d/%m/%Y")
+    estilos.titulo("¿Cancelar tu suscripción?", "Puedes volver a hacerte Premium cuando quieras.")
+    st.markdown(
+        '<div class="tarjeta-pesa"><div class="etiqueta">Seguirás teniendo Premium hasta el</div>'
+        f'<div class="peso" style="font-size:2.2rem">{fin}</div>'
+        '<div class="etiqueta">No se renovará y no se te cobrará más</div></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown("**Después de esa fecha pasarás al plan gratuito y dejarás de tener:**")
+    for icono, titulo, _ in VENTAJAS[:2]:
+        st.markdown(f"- {icono} {titulo}")
+    st.caption("Tu tarjeta regalo sigue siendo tuya. Tus rutinas, tu progreso y tus datos no cambian.")
+    if error := st.session_state.pop("error_cancelar", None):
+        st.error(error)
+    st.button("Sí, cancelar", key="cancelar_si", type="primary", use_container_width=True,
+              on_click=_confirmar_cancelacion)
+    st.button("Volver", key="cancelar_volver", use_container_width=True, on_click=_volver_de_cancelar)
+
+
 def mostrar_zona(ir_a_seccion) -> None:
     """Zona Premium (escenario 3): solo para quien tiene el plan Premium."""
     if not cuentas.es_premium():
+        st.session_state.pop("confirmar_cancelacion", None)
         mostrar_suscripcion()
+        return
+    if st.session_state.get("confirmar_cancelacion"):  # PVBPQAE-20
+        mostrar_confirmar_cancelacion()
         return
     if st.session_state.pop("recien_premium", False):
         st.success("🎉 ¡Ya eres Premium! Te hemos regalado una tarjeta para la tienda.")
@@ -125,6 +175,13 @@ def mostrar_zona(ir_a_seccion) -> None:
     if desde:
         desde = date.fromisoformat(str(desde)).strftime("%d/%m/%Y")
     estilos.titulo("Zona Premium 💎", f"Premium desde el {desde}." if desde else None)
+    if cuentas.premium_cancelado():  # PVBPQAE-20
+        fin = _fecha_texto(usuario["fecha_fin_premium"])
+        if st.session_state.pop("recien_cancelado", False):
+            st.success(f"✅ Suscripción cancelada. La renovación está desactivada y tendrás Premium "
+                       f"hasta el **{fin}**. Después pasarás al plan gratuito.")
+        else:
+            st.info(f"Has cancelado tu suscripción: tienes Premium hasta el **{fin}**.")
 
     tarjeta = cuentas.tarjeta_regalo()
     if tarjeta:
@@ -142,6 +199,13 @@ def mostrar_zona(ir_a_seccion) -> None:
     st.write("")
     st.info("🏋️ **Técnica explicada:** la encontrarás dentro de cada rutina.  \n"
             "🥗 **Alimentación:** en el botón de la barra de arriba.")
+
+    if not cuentas.premium_cancelado():  # PVBPQAE-20
+        st.write("")
+        st.divider()
+        st.caption(f"Tu suscripción ({PRECIO}) se renueva cada mes.")
+        st.button("Cancelar suscripción", key="premium_cancelar_suscripcion", type="tertiary",
+                  on_click=_pedir_cancelacion)
 
 
 def mostrar_alimentacion() -> None:

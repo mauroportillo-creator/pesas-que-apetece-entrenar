@@ -6,6 +6,8 @@
 
 Los datos de conexión con Supabase están en .streamlit/secrets.toml (no se sube a GitHub).
 """
+from datetime import date
+
 import streamlit as st
 from supabase import Client, create_client
 
@@ -51,9 +53,11 @@ def cargar_perfil() -> None:
         "objetivo": perfil.get("objetivo"),
         "plan": perfil.get("plan") or "Gratuito",  # PVBPQAE-93
         "fecha_suscripcion": perfil.get("fecha_suscripcion"),
+        "fecha_fin_premium": perfil.get("fecha_fin_premium"),  # PVBPQAE-20: si canceló, hasta cuándo
         # «Mis rutinas» (la estrella): tabla rutinas_guardadas
         "rutinas_guardadas": _leer_rutinas_guardadas(),
     }
+    _quitar_premium_si_ha_terminado()  # PVBPQAE-20
 
 
 def _actualizar_perfil(cambios: dict) -> None:
@@ -80,7 +84,71 @@ def actualizar_datos(nombre: str, apellidos: str, nivel: str, objetivo: str) -> 
 def es_premium() -> bool:
     """¿La persona que ha iniciado sesión tiene el plan Premium? (lo usan también 8, 10, 12, 20 y 98)"""
     usuario = usuario_actual()
-    return bool(usuario) and usuario.get("plan") == "Premium"
+    return bool(usuario) and usuario.get("plan") == "Premium" and not _premium_terminado(usuario)
+
+
+# ---------------------------------------------------------------- cancelar Premium (PVBPQAE-20)
+# Al cancelar no se quita Premium en el momento: se desactiva la renovación y se sigue teniendo
+# hasta el día antes de la siguiente renovación mensual (columna «fecha_fin_premium»).
+# Lo cambian las funciones cancelar_premium() y quitar_premium_terminado() de Supabase
+# (12_cancelar_suscripcion.sql); la web no puede cambiar esas columnas directamente.
+def _fecha(valor) -> date | None:
+    return date.fromisoformat(str(valor)[:10]) if valor else None
+
+
+def _premium_terminado(usuario: dict) -> bool:
+    fin = _fecha(usuario.get("fecha_fin_premium"))
+    return bool(fin) and fin < date.today()
+
+
+def premium_cancelado() -> bool:
+    """¿Ha cancelado la suscripción (sigue siendo Premium hasta fecha_fin_premium)?"""
+    usuario = usuario_actual()
+    return bool(usuario) and bool(usuario.get("fecha_fin_premium"))
+
+
+def fin_de_acceso(hoy: date | None = None) -> date:
+    """Último día de Premium si cancela hoy: el día antes de la siguiente renovación mensual.
+    Es el mismo cálculo que hace cancelar_premium() en Supabase."""
+    hoy = hoy or date.today()
+    desde = _fecha((usuario_actual() or {}).get("fecha_suscripcion")) or hoy
+    meses = 1
+    while _sumar_meses(desde, meses) <= hoy:
+        meses += 1
+    return date.fromordinal(_sumar_meses(desde, meses).toordinal() - 1)
+
+
+def _sumar_meses(dia: date, meses: int) -> date:
+    """Suma meses como Postgres: el 31 de enero + 1 mes = 28 (o 29) de febrero."""
+    mes = dia.month - 1 + meses
+    anio, mes = dia.year + mes // 12, mes % 12 + 1
+    for d in range(dia.day, 27, -1):
+        try:
+            return date(anio, mes, d)
+        except ValueError:
+            continue
+    return date(anio, mes, min(dia.day, 28))
+
+
+def cancelar_premium() -> str | None:
+    """Desactiva la renovación. Devuelve un error o None."""
+    try:
+        fin = sb().rpc("cancelar_premium").execute().data
+    except Exception:
+        return "No se ha podido cancelar la suscripción. Inténtalo de nuevo más tarde."
+    st.session_state.usuario["fecha_fin_premium"] = fin or fin_de_acceso().isoformat()
+    return None
+
+
+def _quitar_premium_si_ha_terminado() -> None:
+    """Si ya pasó la fecha de fin, el plan vuelve a Gratuito también en Supabase."""
+    usuario = usuario_actual()
+    if usuario.get("plan") == "Premium" and _premium_terminado(usuario):
+        try:
+            sb().rpc("quitar_premium_terminado").execute()
+        except Exception:
+            pass  # es_premium() ya lo trata como gratuito
+        usuario.update(plan="Gratuito", fecha_fin_premium=None)
 
 
 def es_admin() -> bool:
@@ -106,7 +174,8 @@ def hacerme_premium() -> str | None:
             .eq("auth_id", sb().auth.get_user().user.id).limit(1).execute().data)
     if fila:
         st.session_state.usuario.update(plan=fila[0]["plan"],
-                                        fecha_suscripcion=fila[0]["fecha_suscripcion"])
+                                        fecha_suscripcion=fila[0]["fecha_suscripcion"],
+                                        fecha_fin_premium=None)  # PVBPQAE-20: vuelve a renovarse
     st.session_state.usuario.pop("tarjeta_regalo", None)
     return None
 

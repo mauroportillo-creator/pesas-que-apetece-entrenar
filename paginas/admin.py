@@ -60,8 +60,17 @@ def _resultado(error: str | None, ok: str) -> None:
 
 # ---------------------------------------------------------------- 📊 estadísticas
 def _de_pago(usuario: dict) -> bool:
-    """Premium en la web; los usuarios sintéticos (PVBPQAE-42) tienen «Mensual» o «Anual»."""
+    """Premium en la web; los usuarios sintéticos (PVBPQAE-42) tienen «Mensual» o «Anual».
+    Si canceló (PVBPQAE-20) y ya pasó su fecha de fin, cuenta como gratuito."""
+    fin = str(usuario.get("fecha_fin_premium") or "")[:10]
+    if fin and fin < date.today().isoformat():
+        return False
     return (usuario.get("plan") or "Gratuito") != "Gratuito"
+
+
+def _plan(usuario: dict) -> str:
+    """En la web solo hay dos planes: Gratuito y Premium («Mensual» y «Anual» cuentan como Premium)."""
+    return "Premium" if _de_pago(usuario) else "Gratuito"
 
 
 def _contar(filas: list[dict], campo: str) -> pd.DataFrame:
@@ -70,7 +79,7 @@ def _contar(filas: list[dict], campo: str) -> pd.DataFrame:
 
 
 def _estadisticas() -> None:
-    usuarios = _leer("Registro de usuarios", "nivel, objetivo, plan, fecha_registro")
+    usuarios = _leer("Registro de usuarios", "nivel, objetivo, plan, fecha_registro, fecha_fin_premium")
     sesiones = _leer("sesiones_entrenamiento", "rutina_id, valoracion")
     tarjetas = _leer("tarjetas_regalo", "usada")
 
@@ -79,7 +88,7 @@ def _estadisticas() -> None:
     nuevos = sum(1 for u in usuarios if str(u.get("fecha_registro") or "") >= hace_7)
     c1, c2 = st.columns(2)
     c1.metric("Usuarios", len(usuarios), border=True)
-    c2.metric("De pago", f"{premium} · {round(100 * premium / len(usuarios)) if usuarios else 0} %", border=True)
+    c2.metric("Premium", f"{premium} · {round(100 * premium / len(usuarios)) if usuarios else 0} %", border=True)
     c3, c4 = st.columns(2)
     c3.metric("Nuevos esta semana", nuevos, border=True)
     c4.metric("Entrenamientos", len(sesiones), border=True)
@@ -87,7 +96,7 @@ def _estadisticas() -> None:
                f"{sum(1 for t in tarjetas if t.get('usada'))} usadas.")
 
     st.markdown("**Usuarios por plan**")
-    st.bar_chart(_contar(usuarios, "plan"), horizontal=True, color="#EA580C")
+    st.bar_chart(_contar([{"plan": _plan(u)} for u in usuarios], "plan"), horizontal=True, color="#EA580C")
     st.markdown("**Usuarios por nivel**")
     st.bar_chart(_contar(usuarios, "nivel"), horizontal=True, color="#EA580C")
     st.markdown("**Usuarios por objetivo**")
@@ -110,19 +119,21 @@ def _estadisticas() -> None:
 # ---------------------------------------------------------------- 👥 usuarios
 def _usuarios() -> None:
     filas = _leer("Registro de usuarios",
-                  "id_usuario, Nombre, apellidos, nivel, objetivo, plan, fecha_registro", orden="id_usuario")
+                  "id_usuario, Nombre, apellidos, nivel, objetivo, plan, fecha_registro, fecha_fin_premium",
+                  orden="id_usuario")
     c1, c2 = st.columns([2, 1])
     buscar = c1.text_input("Buscar por nombre o apellidos", key="admin_buscar")
-    plan = c2.selectbox("Plan", ["Todos", "Gratuito", "De pago"], key="admin_plan")
+    plan = c2.selectbox("Plan", ["Todos", "Gratuito", "Premium"], key="admin_plan")
     texto = buscar.strip().lower()
     filas = [f for f in filas
              if (not texto or texto in f"{f.get('Nombre') or ''} {f.get('apellidos') or ''}".lower())
-             and (plan == "Todos" or (plan == "De pago") == _de_pago(f))]
+             and (plan == "Todos" or plan == _plan(f))]
     st.caption(f"{len(filas)} usuarios · sin correos ni contraseñas")
     columnas = {"id_usuario": "Nº", "Nombre": "Nombre", "apellidos": "Apellidos", "nivel": "Nivel",
                 "objetivo": "Objetivo", "plan": "Plan", "fecha_registro": "Alta"}
     # Solo estas columnas, nunca correos ni contraseñas (aunque llegaran más datos)
-    tabla = pd.DataFrame([{c: f.get(c) for c in columnas} for f in filas]).rename(columns=columnas)
+    tabla = pd.DataFrame([{c: _plan(f) if c == "plan" else f.get(c) for c in columnas}
+                          for f in filas]).rename(columns=columnas)
     st.dataframe(tabla, hide_index=True, use_container_width=True)
 
 

@@ -3,6 +3,7 @@ import streamlit as st
 
 from comun import autenticacion, cuentas, datos, estilos
 from comun.navegacion import ir_a
+from paginas import terminos
 from paginas.cuestionario import OBJETIVOS, empezar_de_nuevo
 
 
@@ -40,7 +41,18 @@ def mostrar() -> None:
         st.button("🔄 Repetir el cuestionario de nivel", key="repetir_cuestionario",
                   type="primary", use_container_width=True, on_click=_repetir_cuestionario)
 
+    _terminos(usuario)
     _eliminar_cuenta()
+
+
+def _terminos(usuario: dict) -> None:
+    """PVBPQAE-94 · escenario 3: qué datos se guardan, para qué y cómo eliminar la cuenta."""
+    st.write("")
+    st.markdown("**Tus datos y privacidad**")
+    fecha = terminos.fecha_aceptacion(usuario.get("fecha_terminos"))
+    st.caption(f"Aceptaste los términos y condiciones el {fecha}." if fecha else
+               "Aquí puedes ver qué datos guardamos, para qué los usamos y cómo eliminar tu cuenta.")
+    terminos.boton("terminos_mis_datos")
 
 
 def _repetir_cuestionario() -> None:

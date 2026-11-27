@@ -54,6 +54,7 @@ def cargar_perfil() -> None:
         "plan": perfil.get("plan") or "Gratuito",  # PVBPQAE-93
         "fecha_suscripcion": perfil.get("fecha_suscripcion"),
         "fecha_fin_premium": perfil.get("fecha_fin_premium"),  # PVBPQAE-20: si canceló, hasta cuándo
+        "fecha_terminos": perfil.get("fecha_terminos"),  # PVBPQAE-94: cuándo aceptó los términos
         # «Mis rutinas» (la estrella): tabla rutinas_guardadas
         "rutinas_guardadas": _leer_rutinas_guardadas(),
     }

@@ -9,6 +9,7 @@ import streamlit as st
 from comun import autenticacion, cuentas, estilos
 from comun.navegacion import boton_volver, ir_a
 from paginas.cuestionario import empezar_de_nuevo
+from paginas import terminos
 from paginas.pesa import entrar_a_rutina
 
 GENEROS = ["Mujer", "Hombre", "Otro", "Prefiero no decirlo"]
@@ -40,7 +41,7 @@ def mostrar_registro(pesa: dict) -> None:
         contrasena = st.text_input("Contraseña", type="password",
                                    help="Mínimo 8 caracteres.")
         repetir = st.text_input("Repite la contraseña", type="password")
-        acepta = st.checkbox("Acepto la política de privacidad y el tratamiento de mis datos")
+        acepta = st.checkbox("He leído y acepto los términos y condiciones y la política de privacidad")  # PVBPQAE-94
         enviar = st.form_submit_button("Crear cuenta", type="primary", use_container_width=True)
 
     if enviar:
@@ -57,8 +58,9 @@ def mostrar_registro(pesa: dict) -> None:
             errores.append("La contraseña debe tener al menos 8 caracteres.")
         elif contrasena != repetir:
             errores.append("Las contraseñas no coinciden.")
-        if not acepta:
-            errores.append("Tienes que aceptar la política de privacidad.")
+        if not acepta:  # PVBPQAE-94 · escenario 2: sin marcar la casilla no se crea la cuenta
+            errores.append("Para crear tu cuenta tienes que aceptar los términos y condiciones "
+                           "y la política de privacidad.")
 
         if not errores:
             with st.spinner("Creando tu cuenta…"):
@@ -76,6 +78,7 @@ def mostrar_registro(pesa: dict) -> None:
         for e in errores:
             st.error(e)
 
+    terminos.boton("terminos_registro")  # PVBPQAE-94 · escenario 3
     st.button("¿Ya tienes cuenta? Inicia sesión", type="tertiary",
               on_click=ir_a, args=("login",))
 

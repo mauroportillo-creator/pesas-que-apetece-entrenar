@@ -52,7 +52,9 @@ def registrar(nombre: str, apellidos: str, correo: str, contrasena: str,
             "email": correo,
             "password": contrasena,
             "options": {"data": {"nombre": nombre.strip(), "apellidos": apellidos.strip(),
-                                 "edad": edad, "genero": genero, "peso_pesa_kg": peso_pesa_kg}},
+                                 "edad": edad, "genero": genero, "peso_pesa_kg": peso_pesa_kg,
+                                 # PVBPQAE-94: ha marcado la casilla; Supabase guarda la fecha
+                                 "acepta_terminos": True}},
         })
     except Exception as error:
         return "error", _traducir(error)
